@@ -1,11 +1,14 @@
 package dev.gustavosdaniel.apilivraria.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,13 +18,18 @@ public class Autor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
-	private String nacionalidade;
-	private Date dataNascimento;
 	
-	public Autor() {
-		
-	}
+	@Column(length = 100, nullable = false) // nullable fala que é um campo not nnull
+	private String nome;
+	
+	@Column(length = 50, nullable = false) // nullable fala que é um campo not nnull
+	private String nacionalidade;
+	
+	@Column(nullable = false) // nullable fala que é um campo not nnull
+	private LocalDate dataNascimento;
+	
+	@OneToMany(mappedBy = "autor") // UM AUTOR PARA VARIOS LIVROS, MAPEADO PELA ENTIDADE AUTOR "autor" ( QUE ESTA NA TABELA DE LIVROS)
+	private List<Livro> livros;
 
 	public Long getId() {
 		return id;
@@ -47,13 +55,15 @@ public class Autor {
 		this.nacionalidade = nacionalidade;
 	}
 
-	public Date getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+
+	
 	
 	
 }

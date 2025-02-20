@@ -1,13 +1,20 @@
 package dev.gustavosdaniel.apilivraria.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data //UMA ANOTAÇÃO DO LOMBOK PARA SUBSTITUIR GAT SET TOSTRING HASCODE
 @Entity
 @Table(name = "livro_db")
 public class Livro {
@@ -15,15 +22,28 @@ public class Livro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(length = 20, nullable = false) // nullable fala que é um campo not nnull
 	private String isbn;
+	
+	@Column(length = 150, nullable = false) // nullable fala que é um campo not nnull
 	private String titulo;
-	private Date dataPublicacao;
-	private Genero genero;
+	
+	@Column(nullable = false) // nullable fala que é um campo not nnull
+	private LocalDate dataPublicacao;
+	
+	@Enumerated(EnumType.STRING) // quando coloca um tipo enum tem que colocar essa anotação nessec caso foi STRING pq está guardando na classe GENEROLLIVRO NOMES DE GENEROS 
+	@Column(length = 30, nullable = false)
+	private GeneroLivro generoLivro;
+	
+	@Column() // nullable fala que é um campo not nnull e precision fala que pode ter até 18 algoritimos com até 2 numeros depois da virgula
 	private Double preco;
 	
-	public Livro() {
-		
-	}
+	@ManyToOne // MUITOS LIVROS PARA UM AUTOR
+	@JoinColumn() //SERVE PARA MOSTRAR QUE É UM RELACIONAMENTO FK
+	private Autor autor;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -49,20 +69,20 @@ public class Livro {
 		this.titulo = titulo;
 	}
 
-	public Date getDataPublicacao() {
+	public LocalDate getDataPublicacao() {
 		return dataPublicacao;
 	}
 
-	public void setDataPublicacao(Date dataPublicacao) {
+	public void setDataPublicacao(LocalDate dataPublicacao) {
 		this.dataPublicacao = dataPublicacao;
 	}
 
-	public Genero getGenero() {
-		return genero;
+	public GeneroLivro getGenero() {
+		return generoLivro;
 	}
 
-	public void setGenero(Genero genero) {
-		this.genero = genero;
+	public void setGenero(GeneroLivro genero) {
+		this.generoLivro = genero;
 	}
 
 	public Double getPreco() {
