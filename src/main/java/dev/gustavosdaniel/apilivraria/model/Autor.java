@@ -63,6 +63,12 @@ public class Autor {
 		this.dataNascimento = dataNascimento;
 	}
 
+	@Override
+	public String toString() {
+		return "Autor [id=" + id + ", nome=" + nome + ", nacionalidade=" + nacionalidade + ", dataNascimento="
+				+ dataNascimento + ", livros=" + livros + "]";
+	}
+
 	
 	
 	
